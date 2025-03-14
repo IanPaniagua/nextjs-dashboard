@@ -47,7 +47,7 @@ export async function createInvoice(formData: FormData) {
 }
 
 // UPDATE INVOICE
-// Use Zod to update the expected types
+// Use Zod to update the expected types for the form data
 
 const UpdateInvoice = FormSchema.omit({ id: true, date: true });
 export async function updateInvoice(id: string, formData: FormData) {
