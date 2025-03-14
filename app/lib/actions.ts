@@ -82,6 +82,7 @@ export async function updateInvoice(id: string, formData: FormData) {
 // The deleteInvoice function deletes an invoice from the database by its ID.
 
   export async function deleteInvoice(id: string) {
+    throw new Error('Failed to Delete Invoice'); // This is where Next.js error.tsx file comes in. Ensure that you remove this manually added error after testing and before moving onto the next section.
     
     await sql`DELETE FROM invoices WHERE id = ${id}`;
     revalidatePath('/dashboard/invoices');
