@@ -6,6 +6,8 @@
 // need to create API endpoints
 //  manually when using Server Actions.
 
+//like this is working the create invoice. It is really interesant how it works.
+
 import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
