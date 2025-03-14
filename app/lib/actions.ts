@@ -1,19 +1,32 @@
 'use server';
  
-// in React, the action attribute is considered a special prop - meaning React builds on top of 
-// it to allow actions to be invoked.
-// Behind the scenes, Server Actions create a POST API endpoint. This is why you don't 
-// need to create API endpoints
-//  manually when using Server Actions.
-
-//like this is working the create invoice. It is really interesant how it works.
-
 import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import postgres from 'postgres';
-
+import { signIn } from '@/auth';
+import { AuthError } from 'next-auth';
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
+
+// Authenticate (auth.ts)
+export async function authenticate(
+  prevState: string | undefined,
+  formData: FormData,
+) {
+  try {
+    await signIn('credentials', formData);
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case 'CredentialsSignin':
+          return 'Invalid credentials.';
+        default:
+          return 'Something went wrong.';
+      }
+    }
+    throw error;
+  }
+}
 
 //  type validation
 const FormSchema = z.object({
